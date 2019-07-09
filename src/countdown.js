@@ -95,8 +95,10 @@ class countDown {
   /* countdown state -> over */
   end() {
     this.pause();
-    this.totalMilliseconds = 0;
-    this.endTime = 0;
+    if (this.options.fixed) {
+      this.totalMilliseconds = 0;
+      this.endTime = 0;
+    }
     this.start();
   }
 
