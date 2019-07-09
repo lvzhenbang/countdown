@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>countdown</title>
+  <style>
+    html,body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .main {
+      width: 600px;
+      margin: 0 auto;
+    }
+    .countdown {
+      width: 390px;
+      height: 90px;
+      padding: 20px;
+      box-sizing: border-box;
+      font-size: 36px;
+      font-weight: bolder;
+      color: #333333;
+      text-align: center;
+      border: 1px dotted #ccc;
+    }
+
+    .countdown.disabled {
+      text-decoration: line-through;
+      color: #ccc;
+    }
+
+    .countdown2 {
+      margin-top: 20px;
+    }
+
+    .coutdown-op {
+      display: flex;
+      width: 390px;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #333;
+      text-align: center;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      font: 16px/16px '';
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      color: #fff;
+      background-color: tomato;
+      border-color: tomato;
+    }
+
+    .btn+.btn {
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+    <h2>倒计时（countdown）</h2>
+    <div class="countdown countdown1"></div>
+    <div class="countdown countdown2"></div>
+  
+    <div class="coutdown-op">
+      <div class="btn pause-play">暂停(pause)</div>
+      <div class="btn reset">重置(reset)</div>
+      <div class="btn end">结束(over)</div>
+    </div>
+  </div>
+
+  <script src="./src/countdown.js"></script>
+
+  <script>
+    // let countdown1 = new countDown('.countdown1', {
+    //   // endTime: Date.now() + 60 * 60 * 1000,
+    //   endTime: '2019-7-8 16:29:23 999',
+    //   // pre: false, 是否预渲染，默认true
+    //   format: 'd : h : m : S : s',
+    //   auto: false, // 自动倒计时，默认true
+    //   fixed: false // 时间是否固定，默认false
+    // })
+    let countdown1 = new countDown('.countdown1', {
+      totalMilliseconds: 12 * 60 * 1000,
+      format: 'm : S : s',
+      auto: false,
+      fixed: true,
+    });
+
+    let countdown2 = new countDown('.countdown2', {
+      totalMilliseconds: 24000,
+      format: 'S : s',
+      auto: false,
+      fixed: true,
+    });
+
+    const elPausePlay = document.querySelector('.btn.pause-play');
+    const elEnd = document.querySelector('.btn.end');
+    const elReset= document.querySelector('.btn.reset');
+
+    var flag = false;
+    elPausePlay.addEventListener('click', function() {
+      if (!flag) {
+        countdown1.start();
+        countdown2.start();
+        flag = !flag;
+        this.innerText = '开始(start)';
+      } else {
+        countdown1.pause();
+        countdown2.pause();
+        flag = !flag;
+        this.innerText = '暂停(pause)';
+      }
+    });
+
+    elEnd.addEventListener('click', function() {
+      countdown1.pause();
+      countdown2.end();
+    });
+
+    
+    elReset.addEventListener('click', function() {
+      countdown1.pause();
+      countdown2.reset();
+    });
+  </script>
+</body>
+</html>
