@@ -94,18 +94,24 @@ class countDown {
   
   /* countdown state -> over */
   end() {
-    this.pause();
     if (this.options.fixed) {
+      this.pause();
       this.totalMilliseconds = 0;
       this.endTime = 0;
+      this.start();
+    } else {
+      console.log(new Error('end status is invalid!'));
     }
-    this.start();
   }
 
   /* countdown state -> reset */
   reset() {
-    this.endTime = this.options.endTime;
-    this.init();
+    if (this.options.fixed) {
+      this.endTime = this.options.endTime;
+      this.init();
+    } else {
+      console.log(new Error('reset status is invalid!'));
+    }
   }
 
   /* countdown next render milliseconds */
