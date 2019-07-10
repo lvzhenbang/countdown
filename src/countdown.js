@@ -11,6 +11,25 @@ let defaults =  {
   format: 'd : h : m : S : s',
   auto: true, // 自动倒计时，默认true
   fixed: false, // 时间每时每刻都在流逝（如：商城），值为false；时间可以固定，时间的流逝不是固定的（如：NBA比赛倒计时）值为true,
+  lang: 'en', // 默认英文,
+  themeClass: false, // 默认为false。如果存在则为一个选择器名称，如`.countdown-item`
+}
+
+const langMap = {
+  en: {
+    d: 'days',
+    h: 'hours',
+    m: 'minutes',
+    S: 'seconds',
+    s: 'milliseconds'
+  },
+  zh: {
+    d: '天',
+    h: '小时',
+    m: '分钟',
+    S: '秒',
+    s: '毫秒'
+  }
 }
 class countDown {
   constructor(el, opt) {
@@ -199,10 +218,39 @@ class countDown {
     return Object.prototype.toString.call(date) === "[object Date]" && !isNaN(date.getTime());
   }
 
+  getTimeName(timeArr) {
+    const lang = this.options.lang;
+    var timeNameArr = [];
+    for (let len = timeArr.length, i = 0; i < len; i += 1) {
+      timeNameArr.push(langMap[lang][timeArr[i]])
+    }
+
+    return timeNameArr;
+  }
+
   /* countdown render -> time-string to webview */
   render() {
     if (this.$el) {
-      this.$el.innerHTML = this._format();
+      let html = '';
+      let htmlArr = [];
+      const timeArr = this.options.format.split(' : ');
+      const timeNameArr = this.getTimeName(timeArr);
+      const timeValueArr = this._format().split(' : ');
+      const themeClass = this.options.themeClass;
+      
+      if (themeClass && themeClass.length > 0) {
+        for (let len = timeArr.length, i = 0; i < len; i += 1) {
+          htmlArr.push(`<div class="time-item">
+            <span class="number">${timeValueArr[i]}</span>
+            <span class="text">${timeNameArr[i]}</span>
+          </div>`);
+        }
+        html = htmlArr.join(`<span class="separator">:</span>`);
+        this.$el.classList.add(themeClass);
+      } else {
+        html = this._format();
+      }
+      this.$el.innerHTML = html;
     } else {
       console.log(this.offset.day, this.offset.hour, this.offset.minute, this.offset.second, this.offset.millisecond);
     }
