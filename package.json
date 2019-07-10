@@ -1,0 +1,21 @@
+{
+  "name": "coutdown",
+  "version": "1.0.0",
+  "description": "a plugin of coundowntime",
+  "main": "src/index.js",
+  "repository": "https://github.com/lvzhenbang/coutdown.git",
+  "author": "lvzhenbang <lvzhenbang@outlook.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "babel src/index.js -o dist/countdown.js",
+    "build": "babel src/index.js -o dist/countdown.min.js --presets minify",
+    "db": "npm run dev && npm run build"
+  },
+  "homepage": "https://lvzhenbang.github.io/countdown/",
+  "dependencies": {
+    "@babel/cli": "^7.5.0",
+    "@babel/core": "^7.5.4",
+    "@babel/preset-env": "^7.5.4",
+    "babel-preset-minify": "^0.5.0"
+  }
+}
