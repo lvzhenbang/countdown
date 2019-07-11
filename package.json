@@ -11,7 +11,8 @@
     "build": "webpack --env=production",
     "db": "npm run dev && npm run build",
     "lint": "eslint src/index.js",
-    "lint:fix": "eslint src/index.js --fix"
+    "lint:fix": "eslint src/index.js --fix",
+    "deploy": "git checkout -b gh-pages && git push origin gh-pages:gh-pages && git checkout master && git branch -D gh-pages"
   },
   "homepage": "https://lvzhenbang.github.io/countdown/",
   "dependencies": {
