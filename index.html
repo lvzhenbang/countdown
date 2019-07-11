@@ -181,10 +181,10 @@
         <div class="tip">注：人为的使用‘暂停’和‘重置’控制‘倒计时’不起作用。</div>
     </div>
   </div>
-
-  <script src="./dist/countdown.min.js"></script>
+  <script src="./dist/countdown.js"></script>
 
   <script>
+    var countDown = countDown || window.countDown;
     // let countdown1 = new countDown('.countdown1', {
     //   // endTime: Date.now() + 60 * 60 * 1000,
     //   endTime: '2019-7-8 16:29:23 999',
@@ -193,33 +193,33 @@
     //   auto: false, // 自动倒计时，默认true
     //   fixed: false // 时间是否固定，默认false
     // })
-    let countdown1 = new countDown('.countdown1', {
+    var countdown1 = new countDown('.countdown1', {
       totalMilliseconds: 12 * 60 * 1000,
       format: 'm : S : s',
       auto: false,
-      fixed: true,
+      fixed: true
     });
 
-    let countdown2 = new countDown('.countdown2', {
+    var countdown2 = new countDown('.countdown2', {
       totalMilliseconds: 24000,
       format: 'S : s',
       auto: false,
       fixed: true,
     });
 
-    let countdown3 = new countDown('.countdown3', {
+    var countdown3 = new countDown('.countdown3', {
       endTime: '2020-1-1 16:29:23 999',
       format: 'd : h : m : S : s',
       themeClass: 'dark',
       // lang: 'zh'
     });
 
-    const elNbaPausePlay = document.querySelector('.nba .btn.pause-play');
-    const elNbaEnd = document.querySelector('.nba .btn.end');
-    const elNbaReset= document.querySelector('.nba .btn.reset');
-    const elShopPausePlay = document.querySelector('.shop .btn.pause-play');
-    const elShopEnd = document.querySelector('.shop .btn.end');
-    const elShopReset= document.querySelector('.shop .btn.reset');
+    var elNbaPausePlay = document.querySelector('.nba .btn.pause-play');
+    var elNbaEnd = document.querySelector('.nba .btn.end');
+    var elNbaReset= document.querySelector('.nba .btn.reset');
+    var elShopPausePlay = document.querySelector('.shop .btn.pause-play');
+    var elShopEnd = document.querySelector('.shop .btn.end');
+    var elShopReset= document.querySelector('.shop .btn.reset');
 
     var flag = false;
     elNbaPausePlay.addEventListener('click', function() {

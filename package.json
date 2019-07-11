@@ -1,21 +1,34 @@
 {
-  "name": "coutdown",
+  "name": "countdown",
   "version": "1.0.0",
-  "description": "a plugin of coundowntime",
-  "main": "src/index.js",
+  "description": "a plugin of countdowntime",
+  "main": "dist/countdown.min.js",
   "repository": "https://github.com/lvzhenbang/coutdown.git",
   "author": "lvzhenbang <lvzhenbang@outlook.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "babel src/index.js -o dist/countdown.js",
-    "build": "babel src/index.js -o dist/countdown.min.js --presets minify",
-    "db": "npm run dev && npm run build"
+    "dev": "webpack --env=development",
+    "build": "webpack --env=production",
+    "db": "npm run dev && npm run build",
+    "lint": "eslint src/index.js",
+    "lint:fix": "eslint src/index.js --fix"
   },
   "homepage": "https://lvzhenbang.github.io/countdown/",
   "dependencies": {
     "@babel/cli": "^7.5.0",
     "@babel/core": "^7.5.4",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-modules-umd": "^7.2.0",
     "@babel/preset-env": "^7.5.4",
-    "babel-preset-minify": "^0.5.0"
+    "babel-eslint": "^10.0.2",
+    "babel-loader": "^8.0.6",
+    "core-js": "^3.1.4",
+    "eslint": "^6.0.1",
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.2",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.5"
   }
 }
