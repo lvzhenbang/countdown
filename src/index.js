@@ -1,8 +1,8 @@
 import defaults from './config/defaults';
-import langMap from './config/lang';
+import { langMap, stateMap } from './config/lang';
 import version from './config/version';
 
-import isValidDate from './utils/isValiDate';
+import parseInputUnfixedTime from './utils/parseUnfixedTime';
 import inBrowser from './utils/inBrowser';
 
 class CountDown {
@@ -15,7 +15,8 @@ class CountDown {
     };
     this.$el = document.querySelector(el);
     this.options = { ...defaults, ...opt };
-    this.endTime = Date.now();
+    this.state = 'other'; // boefore, progress, after, other, default is other
+    this.edgeTime = Date.now();
     this.init();
     this.version = '1.0.0';
   }
@@ -25,9 +26,11 @@ class CountDown {
   }
 
   init() {
+    this.hasState = this.options.state;
     this.parseInputTime();
-    this.totalMilliseconds = this.endTime - Date.now();
-    if (!this.options.pre) this.endTime -= this.options.interval;
+    this.totalMilliseconds = Math.abs(Date.now() - this.edgeTime);
+
+    if (!this.options.pre) this.edgeTime -= this.options.interval;
 
     if (this.options.auto) {
       this.start();
@@ -52,7 +55,6 @@ class CountDown {
   }
 
   /* countdown state -> next/continue */
-
   continue() {
     const self = this;
     const minTime = Math.min(self.totalMilliseconds, self.options.interval);
@@ -75,6 +77,16 @@ class CountDown {
           self.start();
         }, minTime);
       }
+    } else if (minTime <= 0 && self.state === 'before') {
+      setTimeout(() => {
+        self.state = 'other';
+        self.init();
+      }, 90);
+    } else if (minTime <= 0 && self.state === 'progress') {
+      setTimeout(() => {
+        self.state = 'other';
+        self.init();
+      }, 90);
     } else {
       self.pause();
     }
@@ -98,20 +110,35 @@ class CountDown {
     if (this.options.fixed) {
       this.pause();
       this.totalMilliseconds = 0;
-      this.endTime = 0;
+      this.edgeTime = 0;
       this.start();
-    } else {
-      throw new Error('end status is invalid!');
     }
   }
 
   /* countdown state -> reset */
   reset() {
     if (this.options.fixed) {
-      this.endTime = this.options.endTime;
+      this.parseInputTime();
       this.init();
     } else {
       throw new Error('reset status is invalid!');
+    }
+  }
+
+  /* countdown get current-state; berfor or start */
+  getState() {
+    const start = this.options.start.time;
+    const end = this.options.end.time;
+    if (start >= end) {
+      this.end();
+    }
+    const currentDate = Date.now();
+    if (currentDate < start) {
+      this.state = 'before';
+    } else if (currentDate <= end) {
+      this.state = 'progress';
+    } else {
+      this.state = 'after';
     }
   }
 
@@ -121,7 +148,7 @@ class CountDown {
     if (this.options.fixed) {
       totalMilliseconds = this.totalMilliseconds - this.options.interval;
     } else {
-      totalMilliseconds = this.endTime - Date.now();
+      totalMilliseconds = this.edgeTime - Date.now();
     }
     this.totalMilliseconds = totalMilliseconds < 100 ? 0 : totalMilliseconds;
   }
@@ -144,46 +171,35 @@ class CountDown {
 
   /* countdown parse input times or date , and so on */
   parseInputTime() {
+    this.options.start.time = parseInputUnfixedTime(this.options.start.time);
+    this.options.end.time = parseInputUnfixedTime(this.options.end.time);
+
     // parse totalMliliseocnd
     const intMilliseconds = parseInt(this.options.totalMilliseconds, 10);
+    let edgeTime = 0;
 
     if (!Number.isNaN(intMilliseconds) && intMilliseconds > 0) {
-      this.endTime = intMilliseconds + Date.now();
-      return;
+      edgeTime = intMilliseconds + Date.now();
+      this.hasState = false;
+      // this.state = 'other';
     }
 
-    // parse `new Date()` object value
-    if (isValidDate(this.options.endTime)) {
-      this.endTime = this.options.endTime.getTime();
-      return;
-    }
+    if (this.hasState && this.state === 'other') {
+      this.getState();
+      if (this.state === 'before') {
+        edgeTime = this.options.start.time;
+      }
 
-    // parse '2020-0-7 16:29:59 888' value
-    if (typeof this.options.endTime === 'string' && this.options.endTime.indexOf('-')) {
-      const parseReg = /^(\d{4})-?(\d{1,2})-?(\d{0,2})[\s]?(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.|\s]?(\d{1,3})?$/;
-      const matchesArr = this.options.endTime.match(parseReg);
-      const endDate = new Date(
-        matchesArr[1],
-        (matchesArr[2] - 1) || 0,
-        matchesArr[3] || 1,
-        matchesArr[4] || 0,
-        matchesArr[5] || 0,
-        matchesArr[6] || 0,
-        matchesArr[7] || 0,
-      );
+      if (this.state === 'progress') {
+        edgeTime = this.options.end.time;
+      }
 
-      if (isValidDate(endDate)) {
-        const endTime = endDate.getTime();
-        if (endTime > Date.now()) {
-          this.endTime = endTime;
-        }
-        return;
+      if (this.state === 'after') {
+        edgeTime = this.options.end.time;
       }
     }
 
-    // parse Date.now()/Date.getTime() value
-    const intEndTime = parseInt(this.options.endTime, 10);
-    this.endTime = isValidDate(new Date(intEndTime)) ? intEndTime : 0;
+    this.edgeTime = edgeTime;
   }
 
   /* countdown format -> ouput time */
@@ -228,15 +244,15 @@ class CountDown {
       } else {
         html = this.formatOutputTime();
       }
+
+      if (this.hasState && this.state !== 'other') {
+        html += `<span class="state">${stateMap[this.options.lang][this.state]}</span>`;
+      }
+
       this.$el.innerHTML = html;
     } else {
-      console.log(
-        this.offset.day,
-        this.offset.hour,
-        this.offset.minute,
-        this.offset.second,
-        this.offset.millisecond,
-      );
+      console.log(this.state);
+      console.table(this.offset);
     }
   }
 }

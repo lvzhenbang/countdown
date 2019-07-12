@@ -17,7 +17,6 @@
       height: auto;
     }
 
-
     .main {
       display: flex;
       flex-direction: column;
@@ -116,6 +115,7 @@
 
     /* dark */
     .dark {
+      position: relative;
       display: flex;
       align-items: center;
     }
@@ -148,6 +148,19 @@
       padding: .5em;
       font-size: 16px;
       font-weight: bold;
+    }
+
+    .dark .state {
+      position: absolute;
+      top: -13px;
+      left: 0;
+
+      display: inline-block;
+      padding: 6px 12px;
+      font: 14px/14px '';
+      color: #fff;
+      background-color: yellowgreen;
+      border-radius: 3px;
     }
   </style>
 </head>
@@ -208,10 +221,15 @@
     });
 
     var countdown3 = new countDown('.countdown3', {
-      endTime: '2020-1-1 16:29:23 999',
+      start: {
+        time: Date.now() + 2000
+      },
+      end: {
+        time: Date.now() + 5000 // '2019-7-12 19:55:23 999'
+      },
       format: 'd : h : m : S : s',
       themeClass: 'dark',
-      // lang: 'zh'
+      lang: 'zh'
     });
 
     var elNbaPausePlay = document.querySelector('.nba .btn.pause-play');
@@ -240,11 +258,15 @@
       flag = !flag;
       countdown1.pause();
       countdown2.end();
+      elNbaPausePlay.innerText = '暂停(pause)';
     });
 
     
     elNbaReset.addEventListener('click', function() {
       countdown2.reset();
+      if (flag) {
+        countdown2.start();
+      }
     });
 
     var flag2 = true;
