@@ -4,6 +4,7 @@ import version from './config/version';
 
 import parseInputUnfixedTime from './utils/parseUnfixedTime';
 import inBrowser from './utils/inBrowser';
+import isValidMillisecond from './utils/isValidMilliseconds';
 
 class CountDown {
   constructor(el, opt) {
@@ -26,7 +27,6 @@ class CountDown {
   }
 
   init() {
-    this.hasState = this.options.state;
     this.parseInputTime();
     this.totalMilliseconds = Math.abs(Date.now() - this.edgeTime);
 
@@ -81,12 +81,12 @@ class CountDown {
       setTimeout(() => {
         self.state = 'other';
         self.init();
-      }, 90);
+      }, 0);
     } else if (minTime <= 0 && self.state === 'progress') {
       setTimeout(() => {
         self.state = 'other';
         self.init();
-      }, 90);
+      }, 0);
     } else {
       self.pause();
     }
@@ -173,18 +173,13 @@ class CountDown {
   parseInputTime() {
     this.options.start.time = parseInputUnfixedTime(this.options.start.time);
     this.options.end.time = parseInputUnfixedTime(this.options.end.time);
+    let edgeTime = 0;
 
     // parse totalMliliseocnd
     const intMilliseconds = parseInt(this.options.totalMilliseconds, 10);
-    let edgeTime = 0;
-
-    if (!Number.isNaN(intMilliseconds) && intMilliseconds > 0) {
+    if (isValidMillisecond(this.options.totalMilliseconds)) {
       edgeTime = intMilliseconds + Date.now();
-      this.hasState = false;
-      // this.state = 'other';
-    }
-
-    if (this.hasState && this.state === 'other') {
+    } else {
       this.getState();
       if (this.state === 'before') {
         edgeTime = this.options.start.time;
@@ -245,7 +240,7 @@ class CountDown {
         html = this.formatOutputTime();
       }
 
-      if (this.hasState && this.state !== 'other') {
+      if (this.options.state && this.state !== 'other') {
         html += `<span class="state">${stateMap[this.options.lang][this.state]}</span>`;
       }
 
