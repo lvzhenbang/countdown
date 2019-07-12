@@ -3,8 +3,13 @@ import { langMap, stateMap } from './config/lang';
 import version from './config/version';
 
 import parseInputUnfixedTime from './utils/parseUnfixedTime';
-import inBrowser from './utils/inBrowser';
 import isValidMillisecond from './utils/isValidMilliseconds';
+import inBrowser from './utils/inBrowser';
+import {
+  addClass,
+  removeClass,
+  hasClass,
+} from './utils/class';
 
 class CountDown {
   constructor(el, opt) {
@@ -38,15 +43,15 @@ class CountDown {
       this.setOffset();
       this.render();
       if (this.$el) {
-        this.$el.classList.add('disabled');
+        removeClass(this.$el, 'disabled');
       }
     }
   }
 
   /* countdown state -> start */
   start() {
-    if (this.$el && this.$el.classList.contains('disabled')) {
-      this.$el.classList.remove('disabled');
+    if (this.$el && hasClass(this.$el, 'disabled')) {
+      removeClass(this.$el, 'disabled');
     }
     this.setOffset();
     this.render();
@@ -101,7 +106,7 @@ class CountDown {
     }
 
     if (this.$el) {
-      this.$el.classList.add('disabled');
+      addClass(this.$el, 'disabled');
     }
   }
 
@@ -235,7 +240,7 @@ class CountDown {
           </div>`);
         }
         html = htmlArr.join('<span class="separator">:</span>');
-        this.$el.classList.add(themeClass);
+        addClass(this.$el, themeClass);
       } else {
         html = this.formatOutputTime();
       }
