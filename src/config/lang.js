@@ -1,17 +1,17 @@
 const langMap = {
   en: {
-    d: 'days',
-    h: 'hours',
-    m: 'minutes',
-    S: 'seconds',
-    s: 'milliseconds',
+    DD: 'days',
+    HH: 'hours',
+    MM: 'minutes',
+    SS: 'seconds',
+    sss: 'milliseconds',
   },
   zh: {
-    d: '天',
-    h: '小时',
-    m: '分钟',
-    S: '秒',
-    s: '毫秒',
+    DD: '天',
+    HH: '小时',
+    MM: '分钟',
+    SS: '秒',
+    sss: '毫秒',
   },
 };
 
