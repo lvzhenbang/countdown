@@ -205,11 +205,11 @@ class CountDown {
   /* countdown format -> ouput time */
   formatOutputTime() {
     return this.options.format
-      .replace(/d/, (this.offset.day < 10 ? `0${this.offset.day}` : this.offset.day))
-      .replace(/h/, (`0${this.offset.hour}`).slice(-2))
-      .replace(/m/, (`0${this.offset.minute}`).slice(-2))
-      .replace(/S/, (`0${this.offset.second}`).slice(-2))
-      .replace(/s/, (`${this.offset.millisecond}`));
+      .replace(/DD/, (this.offset.day < 10 ? `0${this.offset.day}` : this.offset.day))
+      .replace(/HH/, (`0${this.offset.hour}`).slice(-2))
+      .replace(/MM/, (`0${this.offset.minute}`).slice(-2))
+      .replace(/SS/, (`0${this.offset.second}`).slice(-2))
+      .replace(/sss/, (`${this.offset.millisecond}`));
   }
 
   /* util -> check date is valid */
