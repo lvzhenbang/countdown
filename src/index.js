@@ -163,13 +163,6 @@ class CountDown {
     this.offset.millisecond = Math.floor((this.totalMilliseconds % 1000) / this.options.interval);
   }
 
-  /* countdown get -> day, hour , minute, second, millisecond */
-  static get getOffset() {
-    this.reComputeMilliseconds();
-    this.setOffset();
-    return this.offset;
-  }
-
   /* countdown parse input times or date , and so on */
   parseInputTime() {
     this.options.start.time = parseInputUnfixedTime(this.options.start.time);

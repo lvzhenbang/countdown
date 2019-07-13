@@ -22,6 +22,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      padding: 3em;
     }
 
     .title {
@@ -163,11 +164,26 @@
       background-color: yellowgreen;
       border-radius: 3px;
     }
+    /* simple */
+    .simple {
+      display: flex;
+      align-items: center;
+    }
+
+    .simple .time-item .text {
+      display: none;
+    }
+
+    .simple .state {
+      margin-left: 1em;
+      font: 13px/13px '';
+    }
   </style>
 </head>
 <body>
   <div class="main">
     <h2 class="title">倒计时（countdown）</h2>
+    <!-- nba -->
     <div class="block nba">
         <div class="block-name">模拟NBA比赛倒计时</div>
         <div class="countdown countdown1"></div>
@@ -181,7 +197,7 @@
 
         <div class="tip">注：可以人为的控制时间的减少，也就是说可以用‘暂停’和‘重置’状态控制‘倒计时’。</div>
     </div>
-
+    <!-- shop -->
     <div class="block shop">
         <div class="block-name">模拟商品优惠（discount）倒计时</div>
         <div class="countdown countdown3"></div>
@@ -194,6 +210,12 @@
 
         <div class="tip">注：人为的使用‘暂停’和‘重置’控制‘倒计时’不起作用。</div>
     </div>
+    <!-- for 30 days 30:3 -->
+    <div class="block">
+      <div class="block-name">30 days 30:3</div>
+      <div class="countdown countdown5 en"></div>
+      <div class="countdown countdown5 zh"></div>
+  </div>
   </div>
   <script src="./dist/countdown.js"></script>
 
@@ -228,10 +250,33 @@
       end: {
         time: Date.now() + 5000 // '2019-7-12 19:55:23 999'
       },
-      format: 'DD : HH: MM : SS : sss',
+      format: 'DD : HH : MM : SS : sss',
       themeClass: 'dark',
       lang: 'zh',
       // state: false
+    });
+
+    var countdown5 = new countDown('.countdown5.zh', {
+      start: {
+        time: Date.now() + 30 * 1000
+      },
+      end: {
+        time: Date.now() + 50 * 1000
+      },
+      themeClass: 'simple',
+      format: 'DD 天 HH : MM : SS',
+      lang: 'zh'
+    });
+
+    var countdown6 = new countDown('.countdown5.en', {
+      start: {
+        time: Date.now() + 30 * 1000
+      },
+      end: {
+        time: Date.now() + 50 * 1000
+      },
+      themeClass: 'simple',
+      format: 'DD days HH : MM : SS'
     });
 
     var elNbaPausePlay = document.querySelector('.nba .btn.pause-play');
