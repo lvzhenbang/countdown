@@ -18,8 +18,10 @@ const addClass = (el, clsName) => {
     if (el.classList) {
       el.classList.add(clsName);
     } else {
-      // 待修复
-      el.className += ` ${clsName}`;
+      // el.className += ` ${clsName}`; /* eslint-disable-line no-param-reassign */
+      // strict using airbnb
+      el.setAtrribute('class', el.className + ` ${clsName}`)
+
     }
   }
 };
