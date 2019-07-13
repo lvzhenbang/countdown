@@ -24,11 +24,7 @@ class CountDown {
     this.state = 'other'; // boefore, progress, after, other, default is other
     this.edgeTime = Date.now();
     this.init();
-    this.version = '1.0.0';
-  }
-
-  static get VERSION() {
-    return version;
+    this.version = version;
   }
 
   init() {

@@ -209,14 +209,14 @@
     // })
     var countdown1 = new countDown('.countdown1', {
       totalMilliseconds: 12 * 60 * 1000,
-      format: 'm : S : s',
+      format: 'MM : SS : sss',
       auto: false,
       fixed: true
     });
 
     var countdown2 = new countDown('.countdown2', {
       totalMilliseconds: 24000,
-      format: 'S : s',
+      format: 'SS : sss',
       auto: false,
       fixed: true,
     });
@@ -228,7 +228,7 @@
       end: {
         time: Date.now() + 5000 // '2019-7-12 19:55:23 999'
       },
-      format: 'DD : HH: mm : ss : SSS',
+      format: 'DD : HH: MM : SS : sss',
       themeClass: 'dark',
       lang: 'zh',
       // state: false
