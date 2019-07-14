@@ -20,8 +20,7 @@ const addClass = (el, clsName) => {
     } else {
       // el.className += ` ${clsName}`; /* eslint-disable-line no-param-reassign */
       // strict using airbnb
-      el.setAtrribute('class', el.className + ` ${clsName}`)
-
+      el.setAtrribute('class', `${el.className} ${clsName}`);
     }
   }
 };
