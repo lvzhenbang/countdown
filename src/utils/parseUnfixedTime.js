@@ -12,20 +12,26 @@ function parseInputUnfixedTime(valTime) {
   if (typeof valTime === 'string' && valTime.indexOf('-')) {
     const parseReg = /^(\d{4})-?(\d{1,2})-?(\d{0,2})[\s]?(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.|\s]?(\d{1,3})?$/;
     const matchesArr = valTime.match(parseReg);
-    const endDate = new Date(
-      matchesArr[1],
-      (matchesArr[2] - 1) || 0,
-      matchesArr[3] || 1,
-      matchesArr[4] || 0,
-      matchesArr[5] || 0,
-      matchesArr[6] || 0,
-      matchesArr[7] || 0,
-    );
+    let endDate = new Date(NaN);
+    
+    if (isArrayLike(matchesArr)) {
+      endDate = new Date(
+        matchesArr[1],
+        (matchesArr[2] - 1) || 0,
+        matchesArr[3] || 1,
+        matchesArr[4] || 0,
+        matchesArr[5] || 0,
+        matchesArr[6] || 0,
+        matchesArr[7] || 0,
+      );
+    }
 
     if (isValidDate(endDate)) {
       const endTime = endDate.getTime();
       if (endTime > Date.now()) {
         return endTime;
+      } else {
+        return Date.now()
       }
     }
   }
