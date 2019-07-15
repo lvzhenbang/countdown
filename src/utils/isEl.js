@@ -1,5 +1,5 @@
 import isObject from './isObject';
 
-const isEl = value => isObject(value) && value.nodeType === 1;
-
-export default isEl;
+export default function isEl (value) {
+  return isObject(value) && value.nodeType === 1;
+}

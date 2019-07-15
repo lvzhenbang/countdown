@@ -1,3 +1,3 @@
-const isValidMillisecond = val => !Number.isNaN(val) && val > 0;
-
-export default isValidMillisecond;
+export default function isValidMillisecond (val) {
+  return !Number.isNaN(val) && val > 0;
+}

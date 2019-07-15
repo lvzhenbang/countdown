@@ -2,7 +2,7 @@
 
 import isValidDate from './isValiDate';
 
-function parseInputUnfixedTime(valTime) {
+export default function parseInputUnfixedTime(valTime) {
   // parse `new Date()` object value
   if (isValidDate(valTime)) {
     return valTime.getTime();
@@ -40,5 +40,3 @@ function parseInputUnfixedTime(valTime) {
   const intEndTime = parseInt(valTime, 10);
   return isValidDate(new Date(intEndTime)) ? intEndTime : 0;
 }
-
-export default parseInputUnfixedTime;
