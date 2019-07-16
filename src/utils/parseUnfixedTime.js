@@ -1,5 +1,5 @@
 /* countdown parse input-times of unfixed */
-
+import isArrayLike from './isArrayLike';
 import isValidDate from './isValiDate';
 
 export default function parseInputUnfixedTime(valTime) {
@@ -13,7 +13,7 @@ export default function parseInputUnfixedTime(valTime) {
     const parseReg = /^(\d{4})-?(\d{1,2})-?(\d{0,2})[\s]?(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.|\s]?(\d{1,3})?$/;
     const matchesArr = valTime.match(parseReg);
     let endDate = new Date(NaN);
-    
+
     if (isArrayLike(matchesArr)) {
       endDate = new Date(
         matchesArr[1],
@@ -27,12 +27,7 @@ export default function parseInputUnfixedTime(valTime) {
     }
 
     if (isValidDate(endDate)) {
-      const endTime = endDate.getTime();
-      if (endTime > Date.now()) {
-        return endTime;
-      } else {
-        return Date.now()
-      }
+      return endDate.getTime();
     }
   }
 
