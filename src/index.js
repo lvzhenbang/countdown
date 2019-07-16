@@ -184,7 +184,7 @@ class CountDown {
       }
 
       if (this.state === 'after') {
-        edgeTime = this.options.end.time;
+        edgeTime = Date.now();
       }
     }
 
@@ -240,15 +240,14 @@ class CountDown {
 
       this.$el.innerHTML = html;
     } else {
-      console.log(this.state);
-      console.table(this.offset);
+      throw new Error(this.state);
     }
   }
 }
 
 if (inBrowser) {
-  console.log('plugin is running browser.');
   window.countDown = CountDown;
+  throw new Error('plugin is running browser.');
 }
 
 export default CountDown;
