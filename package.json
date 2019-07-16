@@ -7,9 +7,9 @@
   "author": "lvzhenbang <lvzhenbang@outlook.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack --env=development",
+    "dev": "webpack-dev-server --env=development",
     "build": "webpack --env=production",
-    "db": "npm run dev && npm run build",
+    "db": "webpack --env=development && npm run build",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
     "deploy": "git push && git checkout -b gh-pages && git push origin gh-pages:gh-pages && git checkout master && git branch -D gh-pages"
@@ -29,7 +29,9 @@
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.2",
+    "html-webpack-plugin": "^3.2.0",
     "webpack": "^4.35.3",
-    "webpack-cli": "^3.3.5"
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
   }
 }

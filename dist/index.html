@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>countdown</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: auto;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 3em;
+    }
+
+    .title {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .block {
+      position: relative;
+      display: inline-block;
+      min-width: 461px;
+      padding: 36px;
+      border-radius: 8px;
+      background-color: #a69255;
+    }
+
+    .block+.block {
+      margin-top: 36px;
+    }
+
+    .block-name {
+      position: absolute;
+      top: -13px;
+      left: 20px;
+      display: inline-block;
+      padding: 10px 16px;
+      font: 14px/14px '';
+      color: #fff;
+      font-weight: bolder;
+      background-color: #8f5449;
+      border-radius: 3px;
+    }
+
+    .countdown {
+      min-height: 90px;
+      padding: 20px;
+      box-sizing: border-box;
+      font-size: 32px;
+      font-weight: bolder;
+      color: #333333;
+      text-align: center;
+      border: 1px dotted #ccc;
+      background-color: #fff;
+    }
+
+    .countdown.disabled {
+      text-decoration: line-through;
+      color: #ccc;
+    }
+
+    .countdown2 {
+      margin-top: 20px;
+    }
+
+    .coutdown-op {
+      display: flex;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #333;
+      text-align: center;
+      background-color: #fff;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      font: 16px/16px '';
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      color: #fff;
+      background-color: tomato;
+      border-color: tomato;
+    }
+
+    .btn+.btn {
+      margin-left: 10px;
+    }
+
+    .tip {
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 6px;
+      background-color: tomato;
+      font-style: intalic;
+      font-size: 12px;
+      color: #fff;
+    }
+
+    /* dark */
+    .dark {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .dark .time-item {
+      position: relative;
+      min-width: 2.5em;
+      padding: 1em .5em 1.25em .5em;
+      font: 30px/30px '';
+      color: #fff;
+      border-radius: .25em;
+      background: -webkit-linear-gradient(top, #999 , #000);
+      background: -moz-linear-gradient(bottom, #999, #000);
+      background: -o-linear-gradient(bottom, #999, #000);
+      background: linear-gradient(to bottom, #000000 , #a5a5a5);
+    }
+
+    .dark .time-item .text {
+      position: absolute;
+      right: 0;
+      bottom: .1em;
+      display: block;
+      width: 100%;
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .dark .separator {
+      display: block;
+      padding: .5em;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .dark .state {
+      position: absolute;
+      top: -13px;
+      left: 0;
+
+      display: inline-block;
+      padding: 6px 12px;
+      font: 14px/14px '';
+      color: #fff;
+      background-color: yellowgreen;
+      border-radius: 3px;
+    }
+    /* simple */
+    .simple {
+      display: flex;
+      align-items: center;
+    }
+
+    .simple .time-item .text {
+      display: none;
+    }
+
+    .simple .state {
+      margin-left: 1em;
+      font: 13px/13px '';
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+    <h2 class="title">倒计时（countdown）</h2>
+    <!-- nba -->
+    <div class="block nba">
+        <div class="block-name">模拟NBA比赛倒计时</div>
+        <div class="countdown countdown1"></div>
+        <div class="countdown countdown2"></div>
+      
+        <div class="coutdown-op">
+          <div class="btn pause-play">开始(start)</div>
+          <div class="btn reset">重置(reset)</div>
+          <div class="btn end">结束(over)</div>
+        </div>
+
+        <div class="tip">注：可以人为的控制时间的减少，也就是说可以用‘暂停’和‘重置’状态控制‘倒计时’。</div>
+    </div>
+    <!-- shop -->
+    <div class="block shop">
+        <div class="block-name">模拟商品优惠（discount）倒计时</div>
+        <div class="countdown countdown3"></div>
+      
+        <div class="coutdown-op">
+          <div class="btn pause-play">暂停(pause)</div>
+          <div class="btn reset">重置(reset)</div>
+          <div class="btn end">结束(over)</div>
+        </div>
+
+        <div class="tip">注：人为的使用‘暂停’和‘重置’控制‘倒计时’不起作用。</div>
+    </div>
+    <!-- for 30 days 30:3 -->
+    <div class="block">
+      <div class="block-name">30 days 30:3</div>
+      <div class="countdown countdown5 en"></div>
+      <div class="countdown countdown5 zh"></div>
+    </div>
+  </div>
+<script type="text/javascript" src="countdown.min.js"></script></body>
+
+<script>
+var countDown = countDown || window.countDown;
+// let countdown1 = new countDown('.countdown1', {
+//   // endTime: Date.now() + 60 * 60 * 1000,
+//   endTime: '2019-7-8 16:29:23 999',
+//   // pre: false, 是否预渲染，默认true
+//   format: 'd : h : m : S : s',
+//   auto: false, // 自动倒计时，默认true
+//   fixed: false // 时间是否固定，默认false
+// })
+var countdown1 = new countDown('.countdown1', {
+  totalMilliseconds: 12 * 60 * 1000,
+  format: 'MM : SS : sss',
+  auto: false,
+  fixed: true
+});
+
+var countdown2 = new countDown('.countdown2', {
+  totalMilliseconds: 24000,
+  format: 'SS : sss',
+  auto: false,
+  fixed: true,
+});
+
+var countdown3 = new countDown('.countdown3', {
+  start: {
+    time: Date.now() + 2000
+  },
+  end: {
+    time: Date.now() + 5000 // '2019-7-12 19:55:23 999'
+  },
+  format: 'DD : HH : MM : SS : sss',
+  themeClass: 'dark',
+  lang: 'zh',
+  // state: false
+});
+
+var countdown5 = new countDown('.countdown5.zh', {
+  start: {
+    time: Date.now() + 30 * 1000
+  },
+  end: {
+    time: Date.now() + 50 * 1000
+  },
+  themeClass: 'simple',
+  format: 'DD 天 HH : MM : SS',
+  lang: 'zh'
+});
+
+var countdown6 = new countDown('.countdown5.en', {
+  start: {
+    // time: Date.now() + 30 * 1000
+    time: '2019-7-14'
+  },
+  end: {
+    // time: Date.now() + 50 * 1000
+    time: '2019-7-15 11:11:11'
+  },
+  themeClass: 'simple',
+  format: 'DD days HH : MM : SS'
+});
+
+var elNbaPausePlay = document.querySelector('.nba .btn.pause-play');
+var elNbaEnd = document.querySelector('.nba .btn.end');
+var elNbaReset= document.querySelector('.nba .btn.reset');
+var elShopPausePlay = document.querySelector('.shop .btn.pause-play');
+var elShopEnd = document.querySelector('.shop .btn.end');
+var elShopReset= document.querySelector('.shop .btn.reset');
+
+var flag = false;
+elNbaPausePlay.addEventListener('click', function() {
+  if (!flag) {
+    countdown1.start();
+    countdown2.start();
+    flag = !flag;
+    this.innerText = '开始(start)';
+  } else {
+    countdown1.pause();
+    countdown2.pause();
+    flag = !flag;
+    this.innerText = '暂停(pause)';
+  }
+});
+
+elNbaEnd.addEventListener('click', function() {
+  flag = !flag;
+  countdown1.pause();
+  countdown2.end();
+  elNbaPausePlay.innerText = '暂停(pause)';
+});
+
+
+elNbaReset.addEventListener('click', function() {
+  countdown2.reset();
+  if (flag) {
+    countdown2.start();
+  }
+});
+
+var flag2 = true;
+elShopPausePlay.addEventListener('click', function() {
+  if (!flag2) {
+    countdown3.start();
+    flag2 = !flag2;
+    this.innerText = '开始(start)';
+  } else {
+    countdown3.pause();
+    flag2 = !flag2;
+    this.innerText = '暂停(pause)';
+  }
+});
+
+elShopEnd.addEventListener('click', function() {
+  countdown3.end();
+});
+
+elShopReset.addEventListener('click', function() {
+  countdown3.reset();
+});
+</script>
+</html>
