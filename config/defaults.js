@@ -19,6 +19,7 @@ const defaults = {
   lang: 'en', // 默认英文,
   themeClass: false, // 默认为false。如果存在则为一个选择器名称，如`.countdown-item`
   state: true, // 默认显示状态
+  stateText: null, // stateMap
 };
 
 export default defaults;

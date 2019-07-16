@@ -253,7 +253,11 @@ var countdown3 = new countDown('.countdown3', {
   format: 'DD : HH : MM : SS : sss',
   themeClass: 'dark',
   lang: 'zh',
-  // state: false
+  stateText: {
+    before: 'Start of distance activity:',
+    progress: 'End of distance activity:',
+    after: 'The activity is over:',
+  }
 });
 
 var countdown5 = new countDown('.countdown5.zh', {

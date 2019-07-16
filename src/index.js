@@ -1,6 +1,6 @@
-import defaults from './config/defaults';
-import { langMap, stateMap } from './config/lang';
-import version from './config/version';
+import defaults from '../config/defaults';
+import { langMap, stateMap } from '../config/lang';
+import version from '../config/version';
 
 import parseInputUnfixedTime from './utils/parseUnfixedTime';
 import isValidMillisecond from './utils/isValidMilliseconds';
@@ -28,6 +28,9 @@ class CountDown {
   }
 
   init() {
+    if (!this.options.stateText) {
+      this.options.stateText = stateMap[this.options.lang];
+    }
     this.parseInputTime();
     this.totalMilliseconds = Math.abs(Date.now() - this.edgeTime);
 
@@ -235,7 +238,7 @@ class CountDown {
       }
 
       if (this.options.state && this.state !== 'other') {
-        html += `<span class="state">${stateMap[this.options.lang][this.state]}</span>`;
+        html += `<span class="state">${this.options.stateText[this.state]}</span>`;
       }
 
       this.$el.innerHTML = html;
