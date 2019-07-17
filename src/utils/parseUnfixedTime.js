@@ -1,6 +1,6 @@
 /* countdown parse input-times of unfixed */
 import isArrayLike from './isArrayLike';
-import isValidDate from './isValiDate';
+import isValidDate from './isValidDate';
 
 export default function parseInputUnfixedTime(valTime) {
   // parse `new Date()` object value
