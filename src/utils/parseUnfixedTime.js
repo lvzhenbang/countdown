@@ -32,6 +32,9 @@ export default function parseInputUnfixedTime(valTime) {
   }
 
   // parse Date.now()/Date.getTime() value
-  const intEndTime = parseInt(valTime, 10);
-  return isValidDate(new Date(intEndTime)) ? intEndTime : 0;
+  if (isValidDate(new Date(valTime))) {
+    return valTime;
+  }
+
+  return false;
 }
