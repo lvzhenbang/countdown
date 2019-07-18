@@ -128,23 +128,6 @@ class CountDown {
     }
   }
 
-  /* countdown get current-state; berfor or start */
-  getState() {
-    const start = this.options.start.time;
-    const end = this.options.end.time;
-    if (start >= end) {
-      this.end();
-    }
-    const currentDate = Date.now();
-    if (currentDate < start) {
-      this.state = 'before';
-    } else if (currentDate <= end) {
-      this.state = 'progress';
-    } else {
-      this.state = 'after';
-    }
-  }
-
   /* countdown next render milliseconds */
   reComputeMilliseconds() {
     let totalMilliseconds = 0;
@@ -174,18 +157,21 @@ class CountDown {
       const intMilliseconds = parseInt(this.options.totalMilliseconds, 10) || 0;
       edgeTime = intMilliseconds + Date.now();
     } else {
-      this.options.start.time = parseInputUnfixedTime(this.options.start.time);
-      this.options.end.time = parseInputUnfixedTime(this.options.end.time);
-      this.getState();
-      if (this.state === 'before') {
-        edgeTime = this.options.start.time;
-      }
-
-      if (this.state === 'progress') {
-        edgeTime = this.options.end.time;
-      }
-
-      if (this.state === 'after') {
+      const startTime = parseInputUnfixedTime(this.options.start.time);
+      const endTime = parseInputUnfixedTime(this.options.end.time);
+      if (startTime && endTime && startTime < endTime) {
+        const currentDate = Date.now();
+        if (currentDate < startTime) {
+          this.state = 'before';
+          edgeTime = startTime;
+        } else if (currentDate < endTime) {
+          this.state = 'progress';
+          edgeTime = endTime;
+        } else {
+          this.state = 'after';
+          edgeTime = Date.now();
+        }
+      } else {
         edgeTime = Date.now();
       }
     }
