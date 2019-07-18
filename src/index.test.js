@@ -186,4 +186,19 @@ describe('CountDown test.', () => {
       day: 0, hour: 0, minute: 0, second: 24, millisecond: 0,
     });
   });
+
+  it('options.start.time greater than options.end.time error', () => {
+    const countdown = new CountDown('.el9', {
+      start: {
+        time: '2019-10-1 10:10:10: 333',
+      },
+      end: {
+        time: '2019-10-1 10:10:10: 332',
+      },
+    });
+    expect(countdown.state).toBe('other');
+    expect(countdown.offset).toEqual({
+      day: 0, hour: 0, minute: 0, second: 0, millisecond: 0,
+    });
+  });
 });
