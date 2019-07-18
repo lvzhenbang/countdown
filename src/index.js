@@ -173,6 +173,7 @@ class CountDown {
         }
       } else {
         edgeTime = Date.now();
+        window.console.log('options.start.time must be less than options.end.time!');
       }
     }
 
