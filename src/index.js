@@ -249,7 +249,7 @@ class CountDown {
 }
 
 if (inBrowser) {
-  window.countDown = CountDown;
+  window.CountDown = CountDown;
   throw new Error('plugin is running browser.');
 }
 
