@@ -171,4 +171,18 @@ describe('CountDown test.', () => {
     expect(countdown.state).toBe('other');
     expect(el9.innerHTML).toBe('24 : 0');
   });
+
+  it('el is not exsit, options.auto "false"', () => {
+    const countdown = new CountDown('.el9', {
+      totalMilliseconds: 24 * 1000,
+      format: 'SS : sss',
+      auto: false,
+      fixed: true,
+      state: false,
+    });
+    expect(countdown.state).toBe('other');
+    expect(countdown.offset).toEqual({
+      day: 0, hour: 0, minute: 0, second: 24, millisecond: 0,
+    });
+  });
 });
