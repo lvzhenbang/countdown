@@ -3,7 +3,6 @@ import { langMap, stateMap } from '../config/lang';
 import version from '../config/version';
 
 import parseInputUnfixedTime from './utils/parseUnfixedTime';
-import isValidMillisecond from './utils/isValidMilliseconds';
 import inBrowser from './utils/inBrowser';
 import {
   addClass,
@@ -168,15 +167,15 @@ class CountDown {
 
   /* countdown parse input times or date , and so on */
   parseInputTime() {
-    this.options.start.time = parseInputUnfixedTime(this.options.start.time);
-    this.options.end.time = parseInputUnfixedTime(this.options.end.time);
     let edgeTime = 0;
 
     // parse totalMliliseocnd
-    const intMilliseconds = parseInt(this.options.totalMilliseconds, 10);
-    if (isValidMillisecond(this.options.totalMilliseconds)) {
+    if (this.options.fixed) {
+      const intMilliseconds = parseInt(this.options.totalMilliseconds, 10) || 0;
       edgeTime = intMilliseconds + Date.now();
     } else {
+      this.options.start.time = parseInputUnfixedTime(this.options.start.time);
+      this.options.end.time = parseInputUnfixedTime(this.options.end.time);
       this.getState();
       if (this.state === 'before') {
         edgeTime = this.options.start.time;
@@ -243,14 +242,14 @@ class CountDown {
 
       this.$el.innerHTML = html;
     } else {
-      throw new Error(this.state);
+      window.console.log(`countdown instance state: ${this.state}`);
     }
   }
 }
 
 if (inBrowser) {
   window.CountDown = CountDown;
-  throw new Error('plugin is running browser.');
+  window.console.log('plugin is running browser.');
 }
 
 export default CountDown;
