@@ -12,6 +12,7 @@ describe('CountDown test.', () => {
     });
 
     expect(countdown.state).toBe('before');
+    expect(countdown.version).toBe('1.3.0');
   });
 
   it('el is exsit, but without option.theme, countdown state "before"', () => {
