@@ -13,7 +13,7 @@ const defaults = {
   totalMilliseconds: 0, // 单位ms
   interval: 100, // 单位ms
   pre: true, // 是否预渲染开始时间
-  format: 'DD : HH: MM : SS : SSS', // DD: 天，HH：小时，MM：分钟，SS：秒，sss：毫秒
+  format: 'DD : HH : MM : SS : SSS', // DD: 天，HH：小时，MM：分钟，SS：秒，sss：毫秒
   auto: true, // 自动倒计时，默认true
   fixed: false, // 时间每时每刻都在流逝（如：商城），值为false；时间可以固定，时间的流逝不是固定的（如：NBA比赛倒计时）值为true,
   lang: 'en', // 默认英文,
