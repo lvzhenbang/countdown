@@ -220,8 +220,8 @@
 <script type="text/javascript" src="countdown.min.js"></script></body>
 
 <script>
-var countDown = countDown || window.countDown;
-// let countdown1 = new countDown('.countdown1', {
+var CountDown = CountDown || window.CountDown;
+// let countdown1 = new CountDown('.countdown1', {
 //   // endTime: Date.now() + 60 * 60 * 1000,
 //   endTime: '2019-7-8 16:29:23 999',
 //   // pre: false, 是否预渲染，默认true
@@ -229,21 +229,21 @@ var countDown = countDown || window.countDown;
 //   auto: false, // 自动倒计时，默认true
 //   fixed: false // 时间是否固定，默认false
 // })
-var countdown1 = new countDown('.countdown1', {
+var countdown1 = new CountDown('.countdown1', {
   totalMilliseconds: 12 * 60 * 1000,
   format: 'MM : SS : sss',
   auto: false,
   fixed: true
 });
 
-var countdown2 = new countDown('.countdown2', {
+var countdown2 = new CountDown('.countdown2', {
   totalMilliseconds: 24000,
   format: 'SS : sss',
   auto: false,
   fixed: true,
 });
 
-var countdown3 = new countDown('.countdown3', {
+var countdown3 = new CountDown('.countdown3', {
   start: {
     time: Date.now() + 2000
   },
@@ -260,7 +260,7 @@ var countdown3 = new countDown('.countdown3', {
   }
 });
 
-var countdown5 = new countDown('.countdown5.zh', {
+var countdown5 = new CountDown('.countdown5.zh', {
   start: {
     time: Date.now() + 30 * 1000
   },
@@ -272,7 +272,7 @@ var countdown5 = new countDown('.countdown5.zh', {
   lang: 'zh'
 });
 
-var countdown6 = new countDown('.countdown5.en', {
+var countdown6 = new CountDown('.countdown5.en', {
   start: {
     // time: Date.now() + 30 * 1000
     time: '2019-7-14'
